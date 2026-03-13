@@ -3,9 +3,17 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from huggingface_hub import AsyncInferenceClient
 from dotenv import load_dotenv
+from fastapi.middleware.cors import CORSMiddleware
 load_dotenv()
 
 app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 client = AsyncInferenceClient(
     api_key=os.environ.get("HF_TOKEN")
